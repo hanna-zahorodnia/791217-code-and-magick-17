@@ -59,11 +59,17 @@ var closeButton = modal.querySelector('.setup-close');
 var isOpen = false;
 
 var form = document.querySelector('.setup-wizard-form');
+var wizardCoatHidden = form.querySelector('input[name="coat-color"]');
+var wizardEyesHidden = form.querySelector('input[name="eyes-color"]');
+var fireballColorHidden = form.querySelector('input[name="fireball-color"]');
 var nameInput = form.querySelector('.setup-user-name');
 
 var wizardCoat = form.querySelector('.setup-wizard .wizard-coat');
 var wizardEyes = form.querySelector('.setup-wizard .wizard-eyes');
 var fireBall = form.querySelector('.setup-fireball-wrap');
+
+var similarWizardsList = document.querySelector('.setup-similar-list');
+var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_BUTTON && !(document.activeElement === nameInput)) {
@@ -85,63 +91,10 @@ var submitForm = function () {
   form.submit();
 };
 
-user.addEventListener('click', function () {
-  openPopup();
-  isOpen = true;
-});
-
-user.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_BUTTON) {
-    openPopup();
-    isOpen = true;
-  }
-});
-
-closeButton.addEventListener('click', function () {
-  closePopup();
-});
-
-closeButton.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_BUTTON) {
-    closePopup();
-  }
-});
-
-form.addEventListener('submit', function (evt) {
-  if (isOpen === true) {
-    if (evt.keyCode === ENTER_BUTTON) {
-      submitForm();
-    }
-  }
-});
-
 var getRandomOption = function (array) {
   var randomOption = Math.floor(Math.random() * array.length);
   return array[randomOption];
 };
-
-wizardCoat.addEventListener('click', function () {
-  var wizardCoatHidden = form.querySelector('input[name="coat-color"]');
-  wizardCoat.style.fill = getRandomOption(COLORS);
-  wizardCoatHidden.value = wizardCoat.style.fill;
-});
-
-wizardEyes.addEventListener('click', function () {
-  var wizardEyesHidden = form.querySelector('input[name="eyes-color"]');
-  wizardEyes.style.fill = getRandomOption(EYES_COLORS);
-  wizardEyesHidden.value = wizardEyes.style.fill;
-});
-
-fireBall.addEventListener('click', function () {
-  var fireballColorHidden = form.querySelector('input[name="fireball-color"]');
-  fireBall.style.backgroundColor = getRandomOption(FIREBALL_COLORS);
-  fireballColorHidden.value = fireBall.style.backgroundColor;
-});
-
-document.querySelector('.setup-similar').classList.remove('hidden');
-
-var similarWizardsList = document.querySelector('.setup-similar-list');
-var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
 var createWizard = function () {
   return {
@@ -178,6 +131,52 @@ var renderWizards = function (wizards) {
 
   similarWizardsList.appendChild(fragment);
 };
+
+user.addEventListener('click', function () {
+  openPopup();
+  isOpen = true;
+});
+
+user.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_BUTTON) {
+    openPopup();
+    isOpen = true;
+  }
+});
+
+closeButton.addEventListener('click', function () {
+  closePopup();
+});
+
+closeButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_BUTTON) {
+    closePopup();
+  }
+});
+
+form.addEventListener('submit', function (evt) {
+  if (isOpen === true) {
+    if (evt.keyCode === ENTER_BUTTON) {
+      submitForm();
+    }
+  }
+});
+
+wizardCoat.addEventListener('click', function () {
+  wizardCoat.style.fill = getRandomOption(COLORS);
+  wizardCoatHidden.value = wizardCoat.style.fill;
+});
+
+wizardEyes.addEventListener('click', function () {
+  wizardEyes.style.fill = getRandomOption(EYES_COLORS);
+  wizardEyesHidden.value = wizardEyes.style.fill;
+});
+
+fireBall.addEventListener('click', function () {
+  var color = getRandomOption(FIREBALL_COLORS);
+  fireBall.style.backgroundColor = color;
+  fireballColorHidden.value = color;
+});
 
 var wizards = generateWizards(wizardsNumber);
 renderWizards(wizards);
