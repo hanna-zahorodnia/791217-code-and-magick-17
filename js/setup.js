@@ -85,6 +85,8 @@ var openPopup = function () {
 var closePopup = function () {
   modal.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+  modal.style.top = '80px';
+  modal.style.left = '50%';
 };
 
 var submitForm = function () {
